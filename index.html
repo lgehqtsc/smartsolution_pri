@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>장비 스마트 솔루션 교육 포털</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
+
+/* ── HEADER ── */
+header{
+  background:
+    radial-gradient(circle at 88% 15%, rgba(37,99,235,.38), transparent 55%),
+    radial-gradient(circle at 4% 100%, rgba(59,130,246,.18), transparent 45%),
+    radial-gradient(rgba(255,255,255,.06) 1px, transparent 1.4px) 0 0/18px 18px,
+    #0f172a;
+  color:#fff;
+  padding:40px 0 24px;
+}
+.header-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;width:100%;max-width:860px;margin:0 auto;padding:0 16px}
+.header-title-wrap{display:inline-block}
+.header-title{font-size:29px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.header-title-accent{height:4px;border-radius:999px;background:linear-gradient(90deg,#3b82f6,#60a5fa);margin-top:10px;width:100%}
+.header-sub{font-size:13px;color:#94a3b8;line-height:1.6}
+.header-badges{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:2px}
+.badge-dark{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#cbd5e1;padding:4px 11px;border-radius:999px;font-size:12px;white-space:nowrap}
+.badge-blue{color:#60a5fa;font-size:12px;font-weight:600;white-space:nowrap}
+
+/* ── TOP NAV ── */
+.top-nav-wrap{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:90;display:flex;justify-content:center;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.top-nav{display:flex;width:100%;max-width:860px;padding:0 8px;justify-content:center}
+.tab-btn{display:flex;align-items:center;gap:6px;padding:0 13px;height:48px;font-size:13px;font-weight:500;border:none;background:none;cursor:pointer;color:#64748b;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;font-family:'Noto Sans KR',sans-serif;flex-shrink:0}
+.tab-btn i{font-size:14px}
+.tab-btn:hover{color:#2563eb}
+.tab-btn.active{color:#2563eb;border-bottom-color:#2563eb;font-weight:700}
+
+/* ── CONTENT ── */
+.content-wrap{max-width:860px;margin:0 auto;padding:20px 16px}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.section-title{font-size:19px;font-weight:700;color:#0f172a;margin-bottom:4px}
+.section-sub{font-size:13px;color:#64748b;line-height:1.7;margin-bottom:20px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin-bottom:14px}
+
+/* ── NOTICE ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.info-card{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;border-radius:10px}
+.info-card h3{font-size:14px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.info-card ul{list-style:none;font-size:13px;color:#475569;line-height:1.9}
+.info-card ul li strong{color:#0f172a}
+.warn-card{background:#fffbeb;border:1px solid #fde68a;padding:14px;border-radius:10px;margin-top:14px}
+.warn-card h3{font-size:13px;font-weight:700;color:#92400e;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.warn-card ul{list-style:disc inside;font-size:13px;color:#92400e;line-height:2}
+
+/* ── CURRICULUM ── */
+.filter-bar{display:flex;gap:6px;margin-bottom:16px}
+.filter-btn{padding:6px 15px;font-size:13px;font-weight:500;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;cursor:pointer;transition:all .15s}
+.filter-btn.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.tl-wrap{position:relative;border-left:2px solid #e2e8f0;margin-left:12px}
+.tl-item{position:relative;padding-left:22px;margin-bottom:18px}
+.tl-dot{position:absolute;left:-9px;top:6px;width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #e2e8f0}
+.tl-dot.blue{background:#2563eb;box-shadow:0 0 0 2px #2563eb}
+.tl-dot.gray{background:#94a3b8}
+.tl-dot.purple{background:#6a4c93;box-shadow:0 0 0 2px #6a4c93}
+.tl-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px}
+.tl-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;flex-wrap:wrap;gap:5px}
+.tl-time{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px}
+.tl-time.blue{background:#eff6ff;color:#2563eb}
+.tl-time.gray{background:#f1f5f9;color:#475569}
+.tl-time.purple{background:#f0ecf8;color:#6a4c93}
+.tl-instructor{font-size:12px;color:#64748b;font-weight:500}
+.tl-instructor.green{color:#16a34a;font-weight:700}
+.tl-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:3px}
+.tl-desc{font-size:13px;color:#475569;line-height:1.7}
+.tl-desc ul{list-style:disc inside;margin-top:3px}
+.ab-label{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 11px;border-radius:6px;margin-bottom:12px}
+.ab-label.a{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+.ab-label.b{background:#f5f3ff;color:#6a4c93;border:1px solid #ddd6fe}
+.tl-wrap.a-wrap{border-left-color:#bfdbfe}
+.tl-wrap.b-wrap{border-left-color:#d8b4fe}
+
+/* ── MATERIALS ── */
+.mat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mat-card{border:1px solid #e2e8f0;padding:14px;border-radius:10px;display:flex;align-items:flex-start;gap:12px;background:#fff;transition:.15s}
+.mat-card:hover{border-color:#93c5fd}
+.mat-icon{font-size:27px;margin-top:2px}
+.mat-info h4{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:3px}
+.mat-info p{font-size:12px;color:#94a3b8}
+.mat-dl{margin-top:6px;font-size:12px;font-weight:500;color:#2563eb;display:flex;align-items:center;gap:4px;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;text-decoration:none}
+.dark-box{background:#0f172a;color:#fff;padding:16px 18px;border-radius:12px;margin-top:8px}
+.dark-box h3{color:#60a5fa;font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.dark-box p{font-size:13px;color:#94a3b8;line-height:1.8}
+
+/* ── FORM SHARED ── */
+.form-wrap{display:flex;flex-direction:column;gap:14px}
+.form-field{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:13px;font-weight:700;color:#0f172a;display:block}
+.radio-group{display:flex;flex-wrap:wrap;gap:10px}
+.radio-group label{display:flex;align-items:center;gap:5px;font-size:13px;color:#475569;cursor:pointer}
+textarea,input[type=text],input[type=date]{width:100%;font-size:14px;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:.15s;background:#fff;color:#1e293b}
+textarea:focus,input[type=text]:focus,input[type=date]:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+select{width:100%;font-size:14px;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:.15s;background:#fff;color:#1e293b;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+select:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+select:disabled{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
+.select-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-primary{background:#2563eb;color:#fff;font-size:14px;font-weight:600;padding:11px 21px;border-radius:8px;border:none;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:7px}
+.btn-primary:hover{background:#1d4ed8}
+.btn-primary:disabled{background:#93c5fd;cursor:not-allowed}
+.btn-outline{background:#fff;color:#374151;font-size:13px;font-weight:500;padding:9px 17px;border-radius:8px;border:1px solid #d1d5db;cursor:pointer;transition:.15s;font-family:'Noto Sans KR',sans-serif}
+.btn-outline:hover{border-color:#3b82f6;color:#2563eb}
+.selected-org{display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 13px;font-size:13px;color:#1e40af;margin-top:4px}
+.selected-org.show{display:flex;align-items:center;gap:6px}
+.divider{border:none;border-top:1px solid #e2e8f0;margin:16px 0}
+.insight-box{background:#eff6ff;border:1px solid #dbeafe;padding:13px 15px;border-radius:10px;font-size:13px;color:#1e40af;line-height:1.7;margin-bottom:14px}
+
+/* ── SURVEY (LIKERT) ── */
+.likert-block{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px}
+.likert-question{display:flex;align-items:flex-start;gap:10px;font-size:14px;font-weight:700;color:#0f172a;margin-bottom:16px;line-height:1.5}
+.likert-no{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:#2563eb;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.likert-scale{display:flex;align-items:center;gap:9px}
+.likert-end-label{font-size:12px;color:#64748b;white-space:nowrap;flex-shrink:0;width:70px}
+.likert-end-label.right{text-align:right}
+.likert-options{display:flex;gap:11px;flex:1;justify-content:center}
+.likert-opt{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.likert-opt input{position:absolute;opacity:0;width:0;height:0}
+.likert-opt .dot{width:33px;height:33px;border-radius:50%;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#64748b;transition:.15s;background:#fff}
+.likert-opt:hover .dot{border-color:#93c5fd;color:#2563eb}
+.likert-opt input:checked + .dot{background:#2563eb;border-color:#2563eb;color:#fff}
+.survey-time-banner{font-size:12px;font-weight:600;color:#2563eb;background:#eff6ff;border:1px solid #bfdbfe;padding:7px 13px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;margin-top:6px}
+@media(max-width:600px){
+  .likert-scale{flex-wrap:wrap;justify-content:center;gap:5px 7px}
+  .likert-end-label{width:auto;flex:0 0 100%;text-align:center!important;margin-bottom:2px}
+  .likert-options{flex:0 0 100%;flex-wrap:wrap;justify-content:center;gap:8px}
+  .likert-opt .dot{width:29px;height:29px;font-size:12px}
+}
+
+/* ── MODAL (이미지 팝업) ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.75);z-index:10000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:#fff;border-radius:14px;max-width:680px;width:100%;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e2e8f0;flex-shrink:0}
+.modal-header h3{font-size:14px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px}
+.modal-close-btn{background:none;border:none;cursor:pointer;color:#94a3b8;font-size:19px;padding:4px 8px;border-radius:6px;transition:.15s;line-height:1}
+.modal-close-btn:hover{color:#ef4444;background:#fef2f2}
+.modal-body{overflow:auto;background:#f8fafc;display:flex;align-items:center;justify-content:center;min-height:160px}
+.modal-body img{width:100%;height:auto;display:block}
+.modal-error{padding:40px 24px;text-align:center;color:#64748b;font-size:13px;line-height:1.7}
+
+/* ── ACTION PLAN TABLE ── */
+.ap-table{width:100%;border-collapse:collapse;font-size:13px}
+.ap-table th{background:#f8fafc;padding:10px 12px;text-align:left;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0;white-space:nowrap}
+.ap-table td{padding:10px 12px;border-bottom:1px solid #f1f5f9;color:#374151;vertical-align:middle}
+.ap-table tr:last-child td{border-bottom:none}
+.badge-emerald{background:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.badge-blue-sm{background:#dbeafe;color:#1e40af;font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.table-scroll{overflow-x:auto}
+.btn-del{background:none;border:none;cursor:pointer;color:#cbd5e1;font-size:14px;padding:4px 6px;border-radius:5px;transition:.15s;line-height:1}
+.btn-del:hover{color:#ef4444;background:#fef2f2}
+
+/* ── DASHBOARD (operator) ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.kpi-card{background:#fff;border:1px solid #e2e8f0;padding:14px;border-radius:10px}
+.kpi-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.kpi-val{font-size:21px;font-weight:700;color:#0f172a}
+.kpi-val span{font-size:13px;font-weight:400;color:#94a3b8}
+.progress{width:100%;background:#f1f5f9;height:5px;border-radius:999px;overflow:hidden;margin-top:8px}
+.progress-bar{background:#2563eb;height:100%;border-radius:999px;transition:width .6s ease}
+.kpi-note{font-size:12px;font-weight:500;margin-top:6px}
+.kpi-note.green{color:#16a34a}
+.kpi-note.blue{color:#2563eb}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chart-box{background:#fff;border:1px solid #e2e8f0;padding:14px;border-radius:10px}
+.chart-box h4{font-size:13px;font-weight:700;color:#374151;text-align:center;margin-bottom:10px}
+.chart-wrap{height:200px;position:relative}
+.refresh-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#64748b;border:1px solid #e2e8f0;background:#f8fafc;padding:7px 15px;border-radius:8px;cursor:pointer;margin-bottom:16px;transition:.15s;font-family:'Noto Sans KR',sans-serif}
+.refresh-btn:hover{color:#2563eb;border-color:#93c5fd}
+.dash-empty{text-align:center;padding:24px;color:#94a3b8;font-size:14px}
+.org-table{width:100%;border-collapse:collapse;font-size:13px}
+.org-table th{background:#f8fafc;padding:9px 11px;text-align:left;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0}
+.org-table td{padding:9px 11px;border-bottom:1px solid #f1f5f9;color:#374151}
+
+/* ── LEARNER BOARD ── */
+.lb-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.lb-stat{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-align:center}
+.lb-stat-val{font-size:27px;font-weight:700;color:#2563eb;line-height:1.1}
+.lb-stat-label{font-size:12px;color:#64748b;margin-top:4px}
+.ap-card-grid{display:flex;flex-direction:column;gap:10px}
+.ap-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;transition:.15s}
+.ap-card:hover{border-color:#bfdbfe;box-shadow:0 2px 8px rgba(37,99,235,.06)}
+.ap-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.ap-card-no{width:26px;height:26px;border-radius:50%;background:#eff6ff;color:#2563eb;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ap-card-title{font-size:14px;font-weight:700;color:#0f172a;flex:1}
+.ap-card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ap-chip{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;background:#f1f5f9;color:#475569}
+.ap-chip.blue{background:#eff6ff;color:#2563eb}
+.ap-card-body{font-size:13px;color:#475569;line-height:1.7;border-top:1px solid #f1f5f9;padding-top:10px;margin-top:6px}
+.ap-card-body strong{color:#0f172a;font-weight:600}
+.ap-card-date{font-size:12px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:4px}
+.lb-empty{text-align:center;padding:48px 20px;color:#94a3b8}
+.lb-empty i{font-size:33px;margin-bottom:12px;display:block;color:#e2e8f0}
+
+/* ── STATUS ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;font-size:14px;padding:13px 21px;border-radius:10px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .grid2,.mat-grid,.chart-grid,.kpi-grid,.select-row,.lb-stats{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .lb-stats{grid-template-columns:repeat(3,1fr)}
+  .header-title{font-size:24px}
+  .content-wrap{padding:14px 12px}
+  .tab-btn span{display:none}
+  .tab-btn{padding:0 11px;gap:0}
+  .tab-btn i{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-title-wrap">
+      <div class="header-title">장비 스마트 솔루션 교육</div>
+      <div class="header-title-accent"></div>
+    </div>
+    <div class="header-sub">"내 장비 성능을 더 빠르게, 솔루션 활용 역량을 갖춘 장비 엔지니어로"</div>
+    <div class="header-badges">
+      <span class="badge-dark">전 구성원 교육 (6~7월)</span>
+      <span class="badge-blue">총 12차수</span>
+    </div>
+  </div>
+</header>
+
+<!-- TOP NAV -->
+<div class="top-nav-wrap">
+  <div class="top-nav">
+    <button class="tab-btn active" onclick="switchTab('notice')"><i class="fa-solid fa-bullhorn"></i><span>&nbsp;교육참가안내</span></button>
+    <button class="tab-btn" onclick="switchTab('curriculum')"><i class="fa-solid fa-calendar-days"></i><span>&nbsp;타임라인</span></button>
+    <button class="tab-btn" onclick="switchTab('materials')"><i class="fa-solid fa-book-open"></i><span>&nbsp;교재</span></button>
+    <button class="tab-btn" onclick="switchTab('survey')"><i class="fa-solid fa-poll-h"></i><span>&nbsp;설문·소감</span></button>
+    <button class="tab-btn" onclick="switchTab('action-plan')"><i class="fa-solid fa-lightbulb"></i><span>&nbsp;업무적용계획</span></button>
+    <button class="tab-btn" onclick="switchTab('learner-board')"><i class="fa-solid fa-users"></i><span>&nbsp;학습자 대시보드</span></button>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <!-- ╔═ 교육참가안내 ═╗ -->
+  <div id="notice" class="tab-content active">
+    <div class="section-title">교육 참가 안내</div>
+    <div class="section-sub">
+      장비기술센터 스마트 솔루션 활용은 역량 향상 기회<br>
+      "내 장비 성능을 더 빠르게 올릴 수 있음" · "불필요한 업무 반복을 줄일 수 있음" · "솔루션 활용 역량을 갖춘 장비 엔지니어로 역할 확장"
+    </div>
+    <div class="grid2">
+      <div class="info-card">
+        <h3><i class="fa-solid fa-clock" style="color:#2563eb"></i> 교육 일정 및 대상</h3>
+        <ul>
+          <li><strong>기간:</strong> 1일 과정, 총 12차수 분할 운영 (6월 말 ~ 7월)</li>
+          <li><strong>시간:</strong> 09:00 ~ 17:00 (총 7시간, 중식 제공)</li>
+          <li><strong>대상:</strong> 장비기술센터 전 구성원 (총 475명)</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3><i class="fa-solid fa-location-dot" style="color:#2563eb"></i> 교육 장소</h3>
+        <ul>
+          <li><strong>이론 강의실:</strong> 채움관 201호 (A반), 205호 (B반)</li>
+          <li><strong>현장 체험:</strong> SFAC (P4동), Embedded House (P1동)</li>
+        </ul>
+        <button class="btn-outline" onclick="openLocationModal()" style="margin-top:10px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px">
+          <i class="fa-solid fa-map-location-dot"></i> 교육장소 확인하기
+        </button>
+      </div>
+    </div>
+    <div class="warn-card">
+      <h3><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> 교육 전 준비물 및 주의사항</h3>
+      <ul>
+        <li><strong>실습 준비:</strong> 4인 1조 기반의 간단한 MCU 제어 실습이 포함되어 있으므로 개별 필기도구를 지참바랍니다.</li>
+        <li><strong>체험 이동:</strong> 1시간당 최대 20명씩 분반 운영하므로 현장 강사의 가이드라인을 엄수해 주세요.</li>
+        <li><strong>아이디어 등록:</strong> 교육 종료 전 패들릿(Padlet)을 활용한 솔루션 활용 아이디어 등록이 진행됩니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ╔═ 타임라인 ═╗ -->
+  <div id="curriculum" class="tab-content">
+    <div class="section-title">교육 프로그램 타임라인</div>
+    <div class="section-sub">강사진 및 체험 동선을 고려하여 A/B 2개 반으로 나누어 동시 운영됩니다.</div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="switchView('all')">전체</button>
+      <button class="filter-btn" onclick="switchView('a')">A반</button>
+      <button class="filter-btn" onclick="switchView('b')">B반</button>
+    </div>
+    <div id="view-all">
+      <div class="tl-wrap">
+        <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time blue">09:00 ~ 09:20</span><span class="tl-instructor">강사: EXG팀</span></div><div class="tl-title">오리엔테이션 및 장비 지능화 방향성 소개</div><div class="tl-desc">단품 중심 장비 개발에서 스마트 팩토리 통합 오퍼링(Digital Twin 연계 등) 체계로의 전환 필요성 공유.</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">09:20 ~ 11:30</span><span class="tl-instructor">강사: 박현순 팀장, 정연욱 팀장, 고민석 팀장, 심경표 책임</span></div><div class="tl-title">스마트 팩토리 핵심 인프라 및 핵심 기능 이론</div><div class="tl-desc"><ul><li><strong>물류/라인 운영 솔루션:</strong> ACS, MCS, PRIME / 센터페시아, PRIoT, MES 이해</li><li><strong>Digital Twin &amp; SF 컨설팅:</strong> 가상 검증 및 PRIMA 플랫폼 활용법</li></ul></div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">11:30 ~ 12:30</span><span class="tl-instructor green"><i class="fa-solid fa-utensils"></i> 중식 시간</span></div><div class="tl-desc">채움관 구내식당 식사 제공</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">12:30 ~ 14:30</span><span class="tl-instructor">강사: 박찬호 책임, 노경래 책임, 김대환 위원</span></div><div class="tl-title">솔루션 심화 및 기술 체험 1차</div><div class="tl-desc"><ul><li><strong>스마트팩토리 AX &amp; 로봇 솔루션:</strong> 설비/공정 이상감지, IRIS 플랫폼, 사전 시뮬레이션</li><li><strong>현장 투어:</strong> SFAC 로봇솔루션 존 및 Embedded House 투어</li></ul></div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">14:30 ~ 16:30</span><span class="tl-instructor">강사: 김희선 책임, 유현선 선임, 박재순 선임</span></div><div class="tl-title">솔루션 심화 및 기술 체험 2차</div><div class="tl-desc"><ul><li><strong>데이터 솔루션 &amp; PRISM Quick Designer:</strong> 제조 AI Agent, 영상 AI 기반 비전, No-code 설계 모델 실습</li><li><strong>체험 실습:</strong> Embedded House 내 저가형 MCU 제어 실습</li></ul></div></div></div>
+        <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time blue">16:30 ~ 17:00</span><span class="tl-instructor">강사: EXG팀</span></div><div class="tl-title">Wrap up : 솔루션 활용 및 현업 적용점 도출</div><div class="tl-desc">패들릿(Padlet) 보드를 활용하여 장비 고도화 아이디어 및 현업 연계점 최종 등록.</div></div></div>
+      </div>
+    </div>
+    <div id="view-a" style="display:none">
+      <div class="ab-label a"><i class="fa-solid fa-door-open" style="font-size:12px"></i> A반 · 채움관 201호</div>
+      <div class="tl-wrap a-wrap">
+        <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time blue">09:00 ~ 09:20</span><span class="tl-instructor">강사: EXG팀</span></div><div class="tl-title">오리엔테이션 / 장비 사업 방향 (영상)</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">09:20 ~ 10:20</span><span class="tl-instructor">강사: 박현순 팀장, 정연욱 팀장</span></div><div class="tl-title">물류운영솔루션 · 라인운영솔루션</div><div class="tl-desc"><ul><li>ACS, MCS, PRIME / 센터페시아, PRIoT, MES</li></ul></div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">10:30 ~ 11:30</span><span class="tl-instructor">강사: 고민석 팀장, 심경표 책임</span></div><div class="tl-title">Digital Twin · 스마트팩토리 컨설팅 및 PRIMA</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">11:30 ~ 12:30</span><span class="tl-instructor green"><i class="fa-solid fa-utensils"></i> 중식 시간</span></div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">12:30 ~ 13:30</span><span class="tl-instructor">강사: 박찬호 책임, 노경래 책임, 김대환 위원</span></div><div class="tl-title">스마트팩토리 AX솔루션 · 로봇솔루션</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">13:30 ~ 14:30</span><span class="tl-instructor">현장: P4동 / P1동</span></div><div class="tl-title">현장 체험 1차 (SFAC · Embedded House)</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">14:30 ~ 15:30</span><span class="tl-instructor">강사: 김희선 책임, 유현선 선임, 박재순 선임</span></div><div class="tl-title">데이터 솔루션 · PRISM Quick Designer</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">15:30 ~ 16:30</span><span class="tl-instructor">현장: P1동 / P4동</span></div><div class="tl-title">현장 체험 2차 교차 (Embedded House · SFAC)</div></div></div>
+        <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time blue">16:30 ~ 17:00</span><span class="tl-instructor">강사: EXG팀</span></div><div class="tl-title">Wrap up</div></div></div>
+      </div>
+    </div>
+    <div id="view-b" style="display:none">
+      <div class="ab-label b"><i class="fa-solid fa-door-open" style="font-size:12px"></i> B반 · 채움관 205호</div>
+      <div class="tl-wrap b-wrap">
+        <div class="tl-item"><div class="tl-dot purple"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time purple">09:00 ~ 09:20</span><span class="tl-instructor">강사: EXG팀</span></div><div class="tl-title">오리엔테이션 / 장비 사업 방향 (영상)</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">09:20 ~ 10:20</span><span class="tl-instructor">강사: 고민석 팀장, 심경표 책임</span></div><div class="tl-title">Digital Twin · 스마트팩토리 컨설팅 및 PRIMA</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">10:30 ~ 11:30</span><span class="tl-instructor">강사: 박현순 팀장, 정연욱 팀장</span></div><div class="tl-title">물류운영솔루션 · 라인운영솔루션</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">11:30 ~ 12:30</span><span class="tl-instructor green"><i class="fa-solid fa-utensils"></i> 중식 시간</span></div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">12:30 ~ 13:30</span><span class="tl-instructor">현장: P4동 / P1동</span></div><div class="tl-title">현장 체험 1차 (SFAC · Embedded House)</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">13:30 ~ 14:30</span><span class="tl-instructor">강사: 박찬호 책임, 노경래 책임, 김대환 위원</span></div><div class="tl-title">스마트팩토리 AX솔루션 · 로봇솔루션</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">14:30 ~ 15:30</span><span class="tl-instructor">현장: P1동 / P4동</span></div><div class="tl-title">현장 체험 2차 교차 (Embedded House · SFAC)</div></div></div>
+        <div class="tl-item"><div class="tl-dot gray"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time gray">15:30 ~ 16:30</span><span class="tl-instructor">강사: 김희선 책임, 유현선 선임, 박재순 선임</span></div><div class="tl-title">데이터 솔루션 · PRISM Quick Designer</div></div></div>
+        <div class="tl-item"><div class="tl-dot purple"></div><div class="tl-box"><div class="tl-meta"><span class="tl-time purple">16:30 ~ 17:00</span><span class="tl-instructor">강사: EXG팀</span></div><div class="tl-title">Wrap up</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ╔═ 교재 ═╗ -->
+  <div id="materials" class="tab-content">
+    <div class="section-title">교육 자료 및 플랫폼 가이드 다운로드</div>
+    <div class="section-sub">각 솔루션별 핵심 교재 자료 및 매뉴얼을 다운로드할 수 있습니다.</div>
+    <div class="mat-grid">
+      <div class="mat-card"><div class="mat-icon" style="color:#f97316">📊</div><div class="mat-info"><h4>01_장비 스마트 솔루션 교육 방향성 및 개요</h4><p>파일 형식: PPTX | 크기: 4.8MB</p><a class="mat-dl" id="mat-dl-1" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
+      <div class="mat-card"><div class="mat-icon" style="color:#3b82f6">📄</div><div class="mat-info"><h4>02_S_F 플랫폼 통합 매뉴얼 (PRISM &amp; PRIME)</h4><p>파일 형식: PDF | 크기: 12.4MB</p><a class="mat-dl" id="mat-dl-2" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
+      <div class="mat-card"><div class="mat-icon" style="color:#3b82f6">📄</div><div class="mat-info"><h4>03_로봇_AX 솔루션 제어 가이드 (IRIS &amp; PRAI)</h4><p>파일 형식: PDF | 크기: 8.1MB</p><a class="mat-dl" id="mat-dl-3" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
+      <div class="mat-card"><div class="mat-icon" style="color:#16a34a">💾</div><div class="mat-info"><h4>04_Embedded House 오픈소스 MCU 실습 소스코드</h4><p>파일 형식: ZIP | 크기: 1.5MB</p><a class="mat-dl" id="mat-dl-4" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
+    </div>
+    <div class="dark-box">
+      <h3><i class="fa-solid fa-building-shield"></i> Embedded House 인프라 연계 안내</h3>
+      <p>실습장소인 <strong>Embedded House</strong>는 단순 이론을 넘어 개발 및 상용 아이템 테스트 환경이 구축되어 있습니다. ANSYS SI-Wave를 포함한 보드 설계 최적화 기술, 저가형 임베디드 비전(라즈베리파이 등), 고속 AI 솔루션(Jetson 기반), 3D 프린팅 소형 설계 검증 하드웨어 인프라를 직접 확인하실 수 있습니다.</p>
+    </div>
+  </div>
+
+  <!-- ╔═ 설문·소감 ═╗ -->
+  <div id="survey" class="tab-content">
+    <div class="section-title">교육 만족도 설문조사</div>
+    <div class="section-sub">
+      교육에 대한 솔직한 의견을 남겨주세요. 여러분의 피드백이 더 나은 교육을 만듭니다.<br>
+      <span class="survey-time-banner"><i class="fa-regular fa-clock"></i> 설문은 교육 종료 시점에 참여 가능합니다.</span>
+    </div>
+
+    <div class="card">
+      <form class="form-wrap" id="survey-form" onsubmit="submitSurvey(event)">
+        <div class="form-field">
+          <span class="form-label">참석하신 차수 <span style="color:#ef4444">*</span></span>
+          <div class="radio-group" id="survey-session-group"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">1</span><span>전체적으로 본 과정에 만족하였다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">전혀 아니다</span>
+            <div class="likert-options" id="q1-options"></div>
+            <span class="likert-end-label right">매우 그렇다</span>
+          </div>
+        </div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">2</span><span>학습내용은 업무(혹은 역할) 관련성이 높았다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">전혀 아니다</span>
+            <div class="likert-options" id="q2-options"></div>
+            <span class="likert-end-label right">매우 그렇다</span>
+          </div>
+        </div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">3</span><span>학습방법은 학습내용 전달에 적절하였다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">전혀 아니다</span>
+            <div class="likert-options" id="q3-options"></div>
+            <span class="likert-end-label right">매우 그렇다</span>
+          </div>
+        </div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">4</span><span>나는 학습한 내용을 실무에 활용할 것이다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">전혀 아니다</span>
+            <div class="likert-options" id="q4-options"></div>
+            <span class="likert-end-label right">매우 그렇다</span>
+          </div>
+        </div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">5</span><span>본 과정을 동료에게 참석해 보도록 추천하고 싶다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">비추천</span>
+            <div class="likert-options" id="nps-options"></div>
+            <span class="likert-end-label right">추천</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-field">
+          <span class="form-label">교육 참석 소감 / 좋았던 점</span>
+          <textarea id="survey-feedback" rows="3" placeholder="자유롭게 작성해 주세요"></textarea>
+        </div>
+        <div class="form-field">
+          <span class="form-label">교육과정에서 개선할 점</span>
+          <textarea id="survey-improvement" rows="3" placeholder="자유롭게 작성해 주세요"></textarea>
+        </div>
+
+        <div id="survey-time-msg" class="warn-card" style="display:none">
+          <h3><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> 제출 시간이 아닙니다</h3>
+          <p style="font-size:13px;color:#92400e;line-height:1.7"><strong>지금은 설문 제출 시간이 아닙니다.</strong></p>
+        </div>
+
+        <button type="submit" class="btn-primary" id="survey-submit-btn" style="align-self:flex-start">
+          <i class="fa-solid fa-paper-plane"></i> 제출하기
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ╔═ 업무 적용 계획 ═╗ -->
+  <div id="action-plan" class="tab-content">
+    <div class="section-title">현업 업무 적용 계획(Action Plan) 수립</div>
+    <div class="section-sub">교육에서 얻은 인사이트를 바탕으로 내 장비 고도화 계획을 작성해 보세요.</div>
+    <div class="insight-box"><strong>💡 기대효과적 관점 전환 예시:</strong><br><em>"제조 AX 솔루션을 활용하여 내 장비의 고질적 성능 한계를 더 빠르게 개선하고 불필요한 반복 업무를 절감한다."</em></div>
+    <div class="card">
+      <form class="form-wrap" id="ap-form" onsubmit="submitActionPlan(event)">
+        <div class="select-row">
+          <div class="form-field">
+            <span class="form-label">사번 <span style="color:#ef4444">*</span></span>
+            <input type="text" id="ap-empno" placeholder="예) 2301234" maxlength="10" required>
+          </div>
+          <div class="form-field">
+            <span class="form-label">이름 <span style="color:#ef4444">*</span></span>
+            <input type="text" id="ap-name" placeholder="홍길동" required>
+          </div>
+        </div>
+        <div class="select-row">
+          <div class="form-field">
+            <span class="form-label">담당 <span style="color:#ef4444">*</span></span>
+            <select id="ap-dept" onchange="onDeptChange()" required><option value="">-- 담당 선택 --</option></select>
+          </div>
+          <div class="form-field">
+            <span class="form-label">팀 / Task <span style="color:#ef4444">*</span></span>
+            <select id="ap-team" disabled required><option value="">-- 담당을 먼저 선택하세요 --</option></select>
+          </div>
+        </div>
+        <div class="selected-org" id="org-preview"><i class="fa-solid fa-building" style="font-size:12px"></i><span id="org-text"></span></div>
+        <div class="divider"></div>
+        <div class="form-field">
+          <span class="form-label">적용 대상 장비 / 기술명 <span style="color:#ef4444">*</span></span>
+          <input type="text" id="ap-target" placeholder="예) 고속 비전 인라인 검사 장비" required>
+        </div>
+        <div class="form-field">
+          <span class="form-label">목표 설정 (Goal) <span style="color:#ef4444">*</span></span>
+          <input type="text" id="ap-goal" placeholder="예) PRAI-Cam 기반 실시간 공정 이상 진단 모듈 도입" required>
+        </div>
+        <div class="form-field">
+          <span class="form-label">핵심 실행 아이템 (Action Items) <span style="color:#ef4444">*</span></span>
+          <textarea id="ap-items" rows="3" placeholder="1. S/F 솔루션 센터와 협업 구조 매핑&#10;2. PLC 데이터 수집용 센서 통합 및 필드 테스트 진행" required></textarea>
+        </div>
+        <div class="form-field">
+          <span class="form-label">예상 완료 일정 <span style="color:#ef4444">*</span></span>
+          <input type="date" id="ap-date" required>
+        </div>
+        <div id="ap-draft-note" style="display:none;font-size:12px;color:#2563eb;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:9px 13px">
+          <i class="fa-solid fa-circle-info" style="margin-right:5px"></i>임시저장된 내용입니다. 작성을 마치면 <strong>제출하기</strong>를 눌러주세요.
+        </div>
+        <div style="display:flex;gap:10px">
+          <button type="button" class="btn-outline" id="ap-draft-btn" onclick="saveDraft()">
+            <i class="fa-solid fa-pen" style="margin-right:6px"></i>임시저장
+          </button>
+          <button type="submit" class="btn-primary" id="ap-submit-btn">
+            <i class="fa-solid fa-paper-plane"></i> 제출하기
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card" style="margin-top:6px">
+      <div style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:4px">제출된 적용 계획</div>
+      <div style="font-size:12px;color:#94a3b8;margin-bottom:14px">제출하기를 누른 계획만 기록됩니다. 임시저장 중인 내용은 기록되지 않습니다.</div>
+      <div class="table-scroll">
+        <table class="ap-table">
+          <thead><tr><th>이름</th><th>소속</th><th>대상 장비</th><th>목표</th><th>일정</th><th></th></tr></thead>
+          <tbody id="apList"></tbody>
+        </table>
+      </div>
+      <div id="ap-empty" style="text-align:center;padding:24px;color:#94a3b8;font-size:14px;display:none">
+        <i class="fa-regular fa-clipboard" style="font-size:25px;display:block;margin-bottom:8px;color:#e2e8f0"></i>아직 제출된 계획이 없습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- ╔═ 학습자 대시보드 ═╗ -->
+  <div id="learner-board" class="tab-content">
+    <div class="section-title">학습자 대시보드</div>
+    <div class="section-sub">동료들이 교육에서 얻은 인사이트로 수립한 업무 적용 계획들입니다. 서로의 아이디어에서 영감을 받아보세요.</div>
+
+    <div class="lb-stats" id="lb-stats">
+      <div class="lb-stat"><div class="lb-stat-val" id="lb-total">—</div><div class="lb-stat-label">총 제출 계획</div></div>
+      <div class="lb-stat"><div class="lb-stat-val" id="lb-depts">—</div><div class="lb-stat-label">참여 담당 수</div></div>
+      <div class="lb-stat"><div class="lb-stat-val" id="lb-solutions">—</div><div class="lb-stat-label">솔루션 활용 유형</div></div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="lb-filter-wrap">
+        <button class="filter-btn active" onclick="filterLearnerBoard('all')" data-filter="all">전체</button>
+      </div>
+      <button class="refresh-btn" onclick="loadLearnerBoard()"><i class="fa-solid fa-rotate-right"></i> 새로고침</button>
+    </div>
+
+    <div id="lb-loading" style="display:none;text-align:center;padding:40px;color:#94a3b8;font-size:14px">
+      <i class="fa-solid fa-spinner fa-spin" style="margin-right:6px"></i> 불러오는 중...
+    </div>
+    <div class="ap-card-grid" id="lb-cards"></div>
+    <div class="lb-empty" id="lb-empty" style="display:none">
+      <i class="fa-regular fa-clipboard"></i>
+      아직 제출된 적용 계획이 없습니다.<br>
+      <span style="font-size:13px">업무 적용계획 탭에서 첫 번째 계획을 등록해 보세요!</span>
+    </div>
+  </div>
+
+</div><!-- end content-wrap -->
+
+<!-- 교육 장소 이미지 팝업 -->
+<div class="modal-overlay" id="location-modal" onclick="if(event.target===this) closeLocationModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3><i class="fa-solid fa-location-dot" style="color:#2563eb"></i> 교육 장소 안내도</h3>
+      <button class="modal-close-btn" onclick="closeLocationModal()" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" id="location-modal-body">
+      <img src="" alt="교육 장소 안내도" id="location-modal-img">
+      <div class="modal-error" id="location-modal-error" style="display:none">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size:24px;display:block;margin-bottom:8px;color:#fbbf24"></i>
+        이미지를 불러올 수 없습니다.<br>관리자 설정의 <strong>LOCATION_IMAGE_URL</strong> 값을 확인해 주세요.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ★ 관리자 설정 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 1) 설문 - 참석 차수 목록 — 차수가 늘어나면 이 배열에 계속 추가하세요
+const SURVEY_SESSIONS = ['1차(6/29)',];
+//    예) '3차(7/1)' 추가 시 → ['1차(6/29)', '2차(6/30)', '3차(7/1)']
+
+// 2) Apps Script 웹앱 URL — 업무 적용계획 / 설문 / 대시보드 연동용
+const AP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9DBdQ63JR-nCIxG5UuFOZcVaOoDnXJelo1tUACfmSgTMh8n4UWnEr7j5-VQ5sR2x5/exec';
+//    예) 'https://script.google.com/macros/s/XXXX/exec'
+
+// 3) 교육 장소 안내 이미지 — 깃허브에 올린 이미지의 "Raw" 주소를 넣어주세요
+//    (깃허브에서 이미지 파일을 열고 'Raw' 버튼을 눌렀을 때 나오는 주소여야 합니다.
+//     일반 github.com/.../blob/... 주소는 이미지가 아닌 페이지라서 동작하지 않습니다.)
+const LOCATION_IMAGE_URL = 'https://raw.githubusercontent.com/사용자명/저장소명/main/location-map.png';
+//    예) 'https://raw.githubusercontent.com/myname/my-repo/main/location-map.png'
+
+// 4) 교재 다운로드 링크 — 자료실 4개 파일의 실제 다운로드 주소를 순서대로 넣어주세요
+//    (구글 드라이브 공유 링크, 깃허브 Raw 주소 등 직접 받을 수 있는 주소를 사용하세요)
+const MATERIAL_LINKS = {
+  'mat-dl-1': '',   // 01_장비 스마트 솔루션 교육 방향성 및 개요 (PPTX)
+  'mat-dl-2': '',   // 02_S_F 플랫폼 통합 매뉴얼 (PDF)
+  'mat-dl-3': '',   // 03_로봇_AX 솔루션 제어 가이드 (PDF)
+  'mat-dl-4': ''    // 04_Embedded House 오픈소스 MCU 실습 소스코드 (ZIP)
+};
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ─── ORG DATA ───
+const orgData = {
+  "PRI i PMO": ["PRI i PMO"],
+  "PRI i TAM": ["PRI i TAM"],
+  "PRI 검사기술담당": ["PRI Xray검사기술Task","PRI 검사SW개발Task","PRI 계측검사기술팀","PRI 반도체검사기술Task","PRI 비전검사기술팀","PRI 비전검사장비BL","PRI 선행검사개발Task","PRI 스마트비전기술팀","PRI 검사기술담당"],
+  "PRI 레이저기술실": ["PRI 레이저용접/접합기술팀","PRI 레이저응용기술Task","PRI 레이저커팅/드릴링기술팀"],
+  "PRI 장비SW/제어담당": ["PRI 고속제어기술Task","PRI 시스템제어기술Task","PRI 원통형장비기술Task","PRI 장비SW기술팀","PRI 전지신공정개발Task","PRI 정밀제어기술Task","PRI 플랫폼설계Task","PRI 장비SW/제어담당"],
+  "PRI 장비기획팀": ["PRI 장비기획팀"],
+  "PRI 장비영업팀": ["PRI 장비영업팀"],
+  "PRI 전지기술담당": ["PRI R2R기술팀","PRI 고속조립기술Task","PRI 전지팩기술팀","PRI 조립/접합기술Task","PRI 조립공정기술팀","PRI 조립장비고도화Task","PRI 팩Biz확산Task","PRI 전지기술담당"],
+  "PRI 정밀기술담당": ["PRI 디스펜싱/본딩기술Task","PRI 바이오장비기술Task","PRI 정밀공정기술팀","PRI 정밀조립기술팀","PRI 진공공정기술Task","PRI 정밀기술담당"],
+  "생산기술원": ["PRI 장비기술센터"]
+};
+
+function initOrgDropdown(deptId, teamId, cb){
+  const deptSel = document.getElementById(deptId);
+  Object.keys(orgData).forEach(d=>{ const o=document.createElement('option'); o.value=d; o.textContent=d; deptSel.appendChild(o); });
+  deptSel.onchange = ()=>{
+    const dept=deptSel.value, teamSel=document.getElementById(teamId);
+    teamSel.innerHTML='';
+    if(!dept){ teamSel.innerHTML='<option value="">-- 담당을 먼저 선택하세요 --</option>'; teamSel.disabled=true; if(cb)cb(); return; }
+    teamSel.disabled=false;
+    teamSel.innerHTML='<option value="">-- 팀/Task 선택 --</option>';
+    (orgData[dept]||[]).forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; teamSel.appendChild(o); });
+    teamSel.onchange = cb||null;
+    if(cb)cb();
+  };
+}
+
+function onDeptChange(){ updateOrgPreview(); }
+function updateOrgPreview(){
+  const dept=document.getElementById('ap-dept').value, team=document.getElementById('ap-team').value;
+  const p=document.getElementById('org-preview'), t=document.getElementById('org-text');
+  if(dept&&team){ t.textContent=dept+' > '+team; p.classList.add('show'); } else { p.classList.remove('show'); }
+}
+
+// ─── TOAST ───
+function showToast(msg, dur=3000){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), dur);
+}
+
+// ─── 교재 다운로드 링크 ───
+function initMaterialLinks(){
+  Object.entries(MATERIAL_LINKS).forEach(([id, url])=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(url){
+      el.href = url;
+    } else {
+      el.href = '#';
+      el.addEventListener('click', e=>{
+        e.preventDefault();
+        showToast('⚠ 다운로드 링크가 아직 설정되지 않았습니다.');
+      });
+    }
+  });
+}
+
+// ─── 교육 장소 이미지 팝업 ───
+function openLocationModal(){
+  const img=document.getElementById('location-modal-img');
+  const err=document.getElementById('location-modal-error');
+  img.style.display='block';
+  err.style.display='none';
+  img.src=LOCATION_IMAGE_URL;
+  document.getElementById('location-modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeLocationModal(){
+  document.getElementById('location-modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+document.getElementById('location-modal-img').addEventListener('error', function(){
+  this.style.display='none';
+  document.getElementById('location-modal-error').style.display='block';
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLocationModal(); });
+
+// ─── TABS / FILTERS ───
+function switchTab(id){
+  document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>{ if(b.getAttribute('onclick')==="switchTab('"+id+"')") b.classList.add('active'); });
+  if(id==='learner-board') setTimeout(loadLearnerBoard, 80);
+}
+function switchView(v){
+  ['all','a','b'].forEach(x=>document.getElementById('view-'+x).style.display=(x===v?'block':'none'));
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('onclick')==="switchView('"+v+"')"));
+}
+
+// ─── POST TO SHEET ───
+async function postToSheet(url, payload){
+  const fd=new URLSearchParams(); fd.append('payload', JSON.stringify(payload));
+  await fetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:fd.toString(),mode:'no-cors'});
+  return true;
+}
+
+// ─── 업무 적용계획 ───
+// 제출된 계획만 보관 (화면 표시용, 시트와는 별개 — 삭제해도 시트는 유지)
+let submittedApList = [];
+const AP_DRAFT_KEY = 'ap_draft_v1';
+
+function collectApForm(){
+  return {
+    empno:document.getElementById('ap-empno').value,
+    name:document.getElementById('ap-name').value,
+    dept:document.getElementById('ap-dept').value,
+    team:document.getElementById('ap-team').value,
+    target:document.getElementById('ap-target').value,
+    goal:document.getElementById('ap-goal').value,
+    items:document.getElementById('ap-items').value,
+    date:document.getElementById('ap-date').value
+  };
+}
+
+function fillApForm(d){
+  document.getElementById('ap-empno').value=d.empno||'';
+  document.getElementById('ap-name').value=d.name||'';
+  document.getElementById('ap-target').value=d.target||'';
+  document.getElementById('ap-goal').value=d.goal||'';
+  document.getElementById('ap-items').value=d.items||'';
+  document.getElementById('ap-date').value=d.date||'';
+  if(d.dept){
+    document.getElementById('ap-dept').value=d.dept;
+    document.getElementById('ap-dept').dispatchEvent(new Event('change'));
+    setTimeout(()=>{
+      if(d.team){ document.getElementById('ap-team').value=d.team; updateOrgPreview(); }
+    },0);
+  }
+}
+
+function saveDraft(){
+  const d=collectApForm();
+  localStorage.setItem(AP_DRAFT_KEY, JSON.stringify(d));
+  showToast('💾 임시저장되었습니다. 다음에 이어서 작성할 수 있어요.');
+  document.getElementById('ap-draft-note').style.display='block';
+}
+
+function loadDraft(){
+  const raw=localStorage.getItem(AP_DRAFT_KEY);
+  if(!raw) return;
+  try{
+    fillApForm(JSON.parse(raw));
+    document.getElementById('ap-draft-note').style.display='block';
+  }catch{}
+}
+
+function clearDraft(){
+  localStorage.removeItem(AP_DRAFT_KEY);
+  document.getElementById('ap-draft-note').style.display='none';
+}
+
+function renderApTable(){
+  const tbody=document.getElementById('apList');
+  const empty=document.getElementById('ap-empty');
+  tbody.innerHTML='';
+  if(submittedApList.length===0){ empty.style.display='block'; return; }
+  empty.style.display='none';
+  submittedApList.forEach((row,idx)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>${row.name}</strong></td><td style="font-size:12px;color:#64748b">${row.team}</td><td style="font-weight:600;color:#0f172a">${row.target}</td><td style="color:#475569">${row.goal}</td><td style="white-space:nowrap">${row.date}</td>
+    <td><button class="btn-del" onclick="deleteLocalAp(${idx})" title="이 화면에서만 삭제 (시트 기록은 유지)"><i class="fa-solid fa-xmark"></i></button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function deleteLocalAp(idx){
+  if(!confirm('이 항목을 목록에서 삭제할까요?')) return;
+  submittedApList.splice(idx,1);
+  renderApTable();
+  showToast('목록에서 삭제되었습니다. 시트 기록은 유지됩니다.');
+}
+
+async function submitActionPlan(e){
+  e.preventDefault();
+  const btn=document.getElementById('ap-submit-btn');
+  const dept=document.getElementById('ap-dept').value, team=document.getElementById('ap-team').value;
+  if(!dept||!team){ showToast('⚠ 담당과 팀/Task를 선택해 주세요.'); return; }
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>제출 중...';
+
+  const now=new Date().toLocaleString('ko-KR');
+  const entry={ timestamp:now, ...collectApForm() };
+
+  if(AP_SCRIPT_URL){
+    try{ await postToSheet(AP_SCRIPT_URL,{...entry,type:'actionplan'}); showToast('✅ 적용계획이 구글 시트에 저장되었습니다!',4000); }
+    catch{ showToast('⚠ 제출 중 오류가 발생했습니다.',4000); }
+  } else { showToast('✅ 적용계획이 제출되었습니다!',4000); }
+
+  // 제출 완료된 계획만 화면 목록에 추가 (임시저장 단계에서는 추가되지 않음)
+  submittedApList.push(entry);
+  renderApTable();
+  clearDraft();
+
+  document.getElementById('ap-form').reset();
+  document.getElementById('ap-team').innerHTML='<option value="">-- 담당을 먼저 선택하세요 --</option>';
+  document.getElementById('ap-team').disabled=true;
+  document.getElementById('org-preview').classList.remove('show');
+  btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> 제출하기';
+}
+
+// ─── 설문·소감 ───
+function buildSessionRadios(){
+  const wrap=document.getElementById('survey-session-group');
+  wrap.innerHTML = SURVEY_SESSIONS.map(s=>
+    `<label><input type="radio" name="session" value="${escHtml(s)}"> ${escHtml(s)}</label>`
+  ).join('');
+}
+
+function buildLikertOptions(name, max){
+  let html='';
+  for(let i=1;i<=max;i++){
+    html += `<label class="likert-opt"><input type="radio" name="${name}" value="${i}"><span class="dot">${i}</span></label>`;
+  }
+  return html;
+}
+
+function initSurveyForm(){
+  buildSessionRadios();
+  ['q1','q2','q3','q4'].forEach(q=>{ document.getElementById(q+'-options').innerHTML = buildLikertOptions(q,5); });
+  document.getElementById('nps-options').innerHTML = buildLikertOptions('nps',10);
+}
+
+// 한국시간(KST) 기준 현재 시·분 — 접속 기기의 시간대와 무관하게 항상 서울 기준으로 판단
+function getKstHourMinute(){
+  const parts = new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+  let hour=0, minute=0;
+  parts.forEach(p=>{ if(p.type==='hour') hour=parseInt(p.value,10); if(p.type==='minute') minute=parseInt(p.value,10); });
+  if(hour===24) hour=0; // 일부 브라우저의 자정 표기(24:00) 보정
+  return {hour, minute};
+}
+
+// 설문은 교육 종료 후 참여 가능합니다.
+function isWithinSurveyWindow(){
+  const {hour, minute} = getKstHourMinute();
+  const m = hour*60 + minute;
+  return m >= 16*60 && m <= 23*60+59;
+}
+
+// 필수 문항(참석 차수, Q1~Q4, 추천의향) 중 답변하지 않은 것이 있는지 확인
+function validateSurveyRequired(){
+  const requiredGroups = ['session','q1','q2','q3','q4','nps'];
+  return requiredGroups.every(name => document.querySelector(`input[name="${name}"]:checked`));
+}
+
+async function submitSurvey(e){
+  e.preventDefault();
+
+  if(!validateSurveyRequired()){
+    showToast('⚠ 필수 문항을 모두 답변해주세요.',3500);
+    return;
+  }
+
+  const btn=document.getElementById('survey-submit-btn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>제출 중...';
+
+  const entry={
+    timestamp:new Date().toLocaleString('ko-KR'),
+    type:'survey',
+    session:document.querySelector('input[name="session"]:checked')?.value || '',
+    q1:document.querySelector('input[name="q1"]:checked')?.value || '',
+    q2:document.querySelector('input[name="q2"]:checked')?.value || '',
+    q3:document.querySelector('input[name="q3"]:checked')?.value || '',
+    q4:document.querySelector('input[name="q4"]:checked')?.value || '',
+    nps:document.querySelector('input[name="nps"]:checked')?.value || '',
+    feedback:document.getElementById('survey-feedback').value,
+    improvement:document.getElementById('survey-improvement').value
+  };
+
+  // 화면에 표시되는 제출 가능 시간과 무관하게, 입력된 데이터는 항상 구글 시트에 누적 저장됩니다.
+  if(AP_SCRIPT_URL){
+    try{ await postToSheet(AP_SCRIPT_URL, entry); }catch{}
+  }
+
+  const msgBox=document.getElementById('survey-time-msg');
+  if(isWithinSurveyWindow()){
+    msgBox.style.display='none';
+    showToast('✅ 설문이 제출되었습니다. 소중한 의견 감사합니다!',4000);
+    document.getElementById('survey-form').reset();
+  } else {
+    msgBox.style.display='block';
+    msgBox.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> 제출하기';
+}
+
+// ─── 학습자 현황판 ───
+let allApData = [];
+let lbFilter = 'all';
+
+async function loadLearnerBoard(){
+  const scriptUrl=AP_SCRIPT_URL;
+  document.getElementById('lb-loading').style.display='block';
+  document.getElementById('lb-cards').style.display='none';
+  document.getElementById('lb-empty').style.display='none';
+
+  if(scriptUrl){
+    try{
+      const res=await fetch(scriptUrl+'?action=getData&t='+Date.now(),{mode:'cors'});
+      const json=await res.json();
+      allApData=json.actionplan||[];
+    } catch{
+      allApData=getDummyApData();
+      showToast('구글 시트 연결 실패 → 샘플 데이터로 표시합니다.',4000);
+    }
+  } else {
+    allApData=getDummyApData();
+  }
+
+  buildLbFilters();
+  renderLearnerBoard(lbFilter);
+  document.getElementById('lb-loading').style.display='none';
+  document.getElementById('lb-cards').style.display='flex';
+}
+
+function buildLbFilters(){
+  const depts=[...new Set(allApData.map(r=>r.dept||'미상').filter(Boolean))].sort();
+  const wrap=document.getElementById('lb-filter-wrap');
+  wrap.innerHTML='<button class="filter-btn active" onclick="filterLearnerBoard(\'all\')" data-filter="all">전체</button>';
+  depts.forEach(d=>{
+    const short=d.replace('PRI ','').replace('담당','').replace('기술실','실');
+    const btn=document.createElement('button');
+    btn.className='filter-btn'; btn.setAttribute('data-filter',d);
+    btn.setAttribute('onclick',`filterLearnerBoard('${d}')`);
+    btn.textContent=short; wrap.appendChild(btn);
+  });
+
+  // stats
+  const deptSet=new Set(allApData.map(r=>r.dept));
+  const solutionSet=new Set(allApData.map(r=>(r.target||'').split(/[\s,\/]/)[0]).filter(Boolean));
+  document.getElementById('lb-total').textContent=allApData.length;
+  document.getElementById('lb-depts').textContent=deptSet.size;
+  document.getElementById('lb-solutions').textContent=Math.min(solutionSet.size,allApData.length);
+}
+
+function filterLearnerBoard(filter){
+  lbFilter=filter;
+  document.querySelectorAll('#lb-filter-wrap .filter-btn').forEach(b=>b.classList.toggle('active', b.dataset.filter===filter));
+  renderLearnerBoard(filter);
+}
+
+function renderLearnerBoard(filter){
+  const cards=document.getElementById('lb-cards');
+  const empty=document.getElementById('lb-empty');
+  const data=filter==='all'?allApData:allApData.filter(r=>r.dept===filter);
+  cards.innerHTML='';
+  if(data.length===0){ empty.style.display='block'; cards.style.display='none'; return; }
+  empty.style.display='none'; cards.style.display='flex';
+  data.forEach((r,i)=>{
+    const deptShort=(r.dept||'').replace('PRI ','');
+    const card=document.createElement('div');
+    card.className='ap-card';
+    card.innerHTML=`
+      <div class="ap-card-header">
+        <div class="ap-card-no">${i+1}</div>
+        <div style="flex:1">
+          <div class="ap-card-title">${escHtml(r.target||'—')}</div>
+          <div class="ap-card-meta" style="margin-top:5px">
+            <span class="ap-chip blue">${escHtml(deptShort)}</span>
+            <span class="ap-chip">${escHtml(r.team||'—')}</span>
+            <span class="ap-chip">${escHtml(r.name||'익명')}</span>
+          </div>
+        </div>
+      </div>
+      <div class="ap-card-body">
+        <strong>목표</strong> ${escHtml(r.goal||'—')}<br>
+        ${r.items?`<strong>실행 아이템</strong><br>${escHtml(r.items).replace(/\n/g,'<br>')}`:'' }
+        <div class="ap-card-date"><i class="fa-regular fa-calendar" style="font-size:12px"></i> 완료 목표: ${escHtml(r.date||'—')}</div>
+      </div>`;
+    cards.appendChild(card);
+  });
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function getDummyApData(){
+  return [
+    {dept:'PRI 검사기술담당',team:'PRI 선행검사개발Task',name:'김민준',target:'고속 비전 인라인 검사 장비',goal:'PRAI-Cam 기반 실시간 공정 이상 진단 모듈 도입',items:'1. S/F 솔루션 센터와 협업 구조 매핑\n2. PLC 데이터 수집용 센서 통합',date:'2026-09-30'},
+    {dept:'PRI 장비SW/제어담당',team:'PRI 고속제어기술Task',name:'이서연',target:'모바일 로봇 자재 이송 시스템',goal:'ACS 기반 이송 경로 최적화 및 MCS 연동',items:'1. 현장 레이아웃 분석\n2. SFAC 로봇솔루션팀 기술 협의',date:'2026-10-31'},
+    {dept:'PRI 전지기술담당',team:'PRI 조립공정기술팀',name:'박지호',target:'전지팩 조립 공정 장비',goal:'Digital Twin 기반 가상 검증 사이클 구축',items:'1. PRIMA 플랫폼 파일럿 적용\n2. 검증 시나리오 시뮬레이션 설계',date:'2026-11-30'},
+    {dept:'PRI 레이저기술실',team:'PRI 레이저용접/접합기술팀',name:'최예린',target:'레이저 용접 장비',goal:'영상 AI 기반 용접 품질 실시간 모니터링',items:'1. IRIS 플랫폼 적용 검토\n2. 비전 센서 데이터 연동 테스트',date:'2026-10-15'},
+    {dept:'PRI 정밀기술담당',team:'PRI 정밀조립기술팀',name:'강도현',target:'디스펜싱 장비',goal:'No-code PRISM Quick Designer로 공정 이상 감지 모델 구현',items:'1. 데이터 수집 파이프라인 구성\n2. Quick Designer 모델 파일럿 학습',date:'2026-09-15'},
+    {dept:'PRI 검사기술담당',team:'PRI 스마트비전기술팀',name:'윤하은',target:'반도체 비전 검사 장비',goal:'제조 AI Agent 활용 자동 불량 분류 체계 구축',items:'1. 불량 이미지 데이터셋 구성\n2. AI Agent 파이프라인 설계',date:'2026-12-31'},
+  ];
+}
+
+// ─── INIT ───
+initOrgDropdown('ap-dept','ap-team', updateOrgPreview);
+document.getElementById('ap-team').disabled=true;
+renderApTable();
+loadDraft();
+initSurveyForm();
+initMaterialLinks();
+</script>
+</body>
+</html>
