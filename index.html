@@ -578,16 +578,8 @@ select:disabled{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
           <input type="text" id="ap-target" placeholder="예) 고속 비전 인라인 검사 장비" required>
         </div>
         <div class="form-field">
-          <span class="form-label">목표 설정 (Goal) <span style="color:#ef4444">*</span></span>
-          <input type="text" id="ap-goal" placeholder="예) PRAI-Cam 기반 실시간 공정 이상 진단 모듈 도입" required>
-        </div>
-        <div class="form-field">
           <span class="form-label">핵심 실행 아이템 (Action Items) <span style="color:#ef4444">*</span></span>
           <textarea id="ap-items" rows="3" placeholder="1. S/F 솔루션 센터와 협업 구조 매핑&#10;2. PLC 데이터 수집용 센서 통합 및 필드 테스트 진행" required></textarea>
-        </div>
-        <div class="form-field">
-          <span class="form-label">예상 완료 일정 <span style="color:#ef4444">*</span></span>
-          <input type="date" id="ap-date" required>
         </div>
         <div id="ap-draft-note" style="display:none;font-size:12px;color:#2563eb;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:9px 13px">
           <i class="fa-solid fa-circle-info" style="margin-right:5px"></i>임시저장된 내용입니다. 작성을 마치면 <strong>제출하기</strong>를 눌러주세요.
@@ -608,7 +600,7 @@ select:disabled{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
       <div style="font-size:12px;color:#94a3b8;margin-bottom:14px">제출하기를 누른 계획만 기록됩니다. 임시저장 중인 내용은 기록되지 않습니다.</div>
       <div class="table-scroll">
         <table class="ap-table">
-          <thead><tr><th>이름</th><th>소속</th><th>대상 장비</th><th>목표</th><th>일정</th><th></th></tr></thead>
+          <thead><tr><th>이름</th><th>소속</th><th>대상 장비</th><th></th></tr></thead>
           <tbody id="apList"></tbody>
         </table>
       </div>
@@ -854,9 +846,7 @@ function collectApForm(){
     dept:document.getElementById('ap-dept').value,
     team:document.getElementById('ap-team').value,
     target:document.getElementById('ap-target').value,
-    goal:document.getElementById('ap-goal').value,
-    items:document.getElementById('ap-items').value,
-    date:document.getElementById('ap-date').value
+    items:document.getElementById('ap-items').value
   };
 }
 
@@ -864,9 +854,7 @@ function fillApForm(d){
   document.getElementById('ap-empno').value=d.empno||'';
   document.getElementById('ap-name').value=d.name||'';
   document.getElementById('ap-target').value=d.target||'';
-  document.getElementById('ap-goal').value=d.goal||'';
   document.getElementById('ap-items').value=d.items||'';
-  document.getElementById('ap-date').value=d.date||'';
   if(d.dept){
     document.getElementById('ap-dept').value=d.dept;
     document.getElementById('ap-dept').dispatchEvent(new Event('change'));
@@ -905,7 +893,7 @@ function renderApTable(){
   empty.style.display='none';
   submittedApList.forEach((row,idx)=>{
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td><strong>${row.name}</strong></td><td style="font-size:12px;color:#64748b">${row.team}</td><td style="font-weight:600;color:#0f172a">${row.target}</td><td style="color:#475569">${row.goal}</td><td style="white-space:nowrap">${row.date}</td>
+    tr.innerHTML=`<td><strong>${row.name}</strong></td><td style="font-size:12px;color:#64748b">${row.team}</td><td style="font-weight:600;color:#0f172a">${row.target}</td>
     <td><button class="btn-del" onclick="deleteLocalAp(${idx})" title="이 화면에서만 삭제 (시트 기록은 유지)"><i class="fa-solid fa-xmark"></i></button></td>`;
     tbody.appendChild(tr);
   });
@@ -1110,9 +1098,7 @@ function renderLearnerBoard(filter){
         </div>
       </div>
       <div class="ap-card-body">
-        <strong>목표</strong> ${escHtml(r.goal||'—')}<br>
         ${r.items?`<strong>실행 아이템</strong><br>${escHtml(r.items).replace(/\n/g,'<br>')}`:'' }
-        <div class="ap-card-date"><i class="fa-regular fa-calendar" style="font-size:12px"></i> 완료 목표: ${escHtml(r.date||'—')}</div>
       </div>`;
     cards.appendChild(card);
   });
@@ -1122,12 +1108,12 @@ function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
 
 function getDummyApData(){
   return [
-    {dept:'PRI 검사기술담당',team:'PRI 선행검사개발Task',name:'김민준',target:'고속 비전 인라인 검사 장비',goal:'PRAI-Cam 기반 실시간 공정 이상 진단 모듈 도입',items:'1. S/F 솔루션 센터와 협업 구조 매핑\n2. PLC 데이터 수집용 센서 통합',date:'2026-09-30'},
-    {dept:'PRI 장비SW/제어담당',team:'PRI 고속제어기술Task',name:'이서연',target:'모바일 로봇 자재 이송 시스템',goal:'ACS 기반 이송 경로 최적화 및 MCS 연동',items:'1. 현장 레이아웃 분석\n2. SFAC 로봇솔루션팀 기술 협의',date:'2026-10-31'},
-    {dept:'PRI 전지기술담당',team:'PRI 조립공정기술팀',name:'박지호',target:'전지팩 조립 공정 장비',goal:'Digital Twin 기반 가상 검증 사이클 구축',items:'1. PRIMA 플랫폼 파일럿 적용\n2. 검증 시나리오 시뮬레이션 설계',date:'2026-11-30'},
-    {dept:'PRI 레이저기술실',team:'PRI 레이저용접/접합기술팀',name:'최예린',target:'레이저 용접 장비',goal:'영상 AI 기반 용접 품질 실시간 모니터링',items:'1. IRIS 플랫폼 적용 검토\n2. 비전 센서 데이터 연동 테스트',date:'2026-10-15'},
-    {dept:'PRI 정밀기술담당',team:'PRI 정밀조립기술팀',name:'강도현',target:'디스펜싱 장비',goal:'No-code PRISM Quick Designer로 공정 이상 감지 모델 구현',items:'1. 데이터 수집 파이프라인 구성\n2. Quick Designer 모델 파일럿 학습',date:'2026-09-15'},
-    {dept:'PRI 검사기술담당',team:'PRI 스마트비전기술팀',name:'윤하은',target:'반도체 비전 검사 장비',goal:'제조 AI Agent 활용 자동 불량 분류 체계 구축',items:'1. 불량 이미지 데이터셋 구성\n2. AI Agent 파이프라인 설계',date:'2026-12-31'},
+    {dept:'PRI 검사기술담당',team:'PRI 선행검사개발Task',name:'김민준',target:'고속 비전 인라인 검사 장비',items:'1. S/F 솔루션 센터와 협업 구조 매핑\n2. PLC 데이터 수집용 센서 통합'},
+    {dept:'PRI 장비SW/제어담당',team:'PRI 고속제어기술Task',name:'이서연',target:'모바일 로봇 자재 이송 시스템',items:'1. 현장 레이아웃 분석\n2. SFAC 로봇솔루션팀 기술 협의'},
+    {dept:'PRI 전지기술담당',team:'PRI 조립공정기술팀',name:'박지호',target:'전지팩 조립 공정 장비',items:'1. PRIMA 플랫폼 파일럿 적용\n2. 검증 시나리오 시뮬레이션 설계'},
+    {dept:'PRI 레이저기술실',team:'PRI 레이저용접/접합기술팀',name:'최예린',target:'레이저 용접 장비',items:'1. IRIS 플랫폼 적용 검토\n2. 비전 센서 데이터 연동 테스트'},
+    {dept:'PRI 정밀기술담당',team:'PRI 정밀조립기술팀',name:'강도현',target:'디스펜싱 장비',items:'1. 데이터 수집 파이프라인 구성\n2. Quick Designer 모델 파일럿 학습'},
+    {dept:'PRI 검사기술담당',team:'PRI 스마트비전기술팀',name:'윤하은',target:'반도체 비전 검사 장비',items:'1. 불량 이미지 데이터셋 구성\n2. AI Agent 파이프라인 설계'},
   ];
 }
 
