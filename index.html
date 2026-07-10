@@ -94,6 +94,11 @@ header{
 .dark-box h3{color:#60a5fa;font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .dark-box p{font-size:13px;color:#94a3b8;line-height:1.8}
 
+/* ── SOLUTION MAP ── */
+.solmap-img-wrap{position:relative}
+.solmap-img{width:100%;height:auto;border-radius:8px;display:block;cursor:zoom-in;border:1px solid #e2e8f0}
+.solmap-hint{display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8;margin-top:10px;justify-content:center}
+
 /* ── FORM SHARED ── */
 .form-wrap{display:flex;flex-direction:column;gap:14px}
 .form-field{display:flex;flex-direction:column;gap:4px}
@@ -141,6 +146,7 @@ select:disabled{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.75);z-index:10000;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.show{display:flex}
 .modal-box{background:#fff;border-radius:14px;max-width:680px;width:100%;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.modal-box.modal-box-wide{max-width:920px}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e2e8f0;flex-shrink:0}
 .modal-header h3{font-size:14px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px}
 .modal-close-btn{background:none;border:none;cursor:pointer;color:#94a3b8;font-size:19px;padding:4px 8px;border-radius:6px;transition:.15s;line-height:1}
@@ -289,10 +295,11 @@ select:disabled{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
   <div class="top-nav">
     <button class="tab-btn active" onclick="switchTab('notice')"><i class="fa-solid fa-bullhorn"></i><span>&nbsp;교육참가안내</span></button>
     <button class="tab-btn" onclick="switchTab('curriculum')"><i class="fa-solid fa-calendar-days"></i><span>&nbsp;타임라인</span></button>
-    <button class="tab-btn" id="tab-btn-materials" onclick="switchTab('materials')"><i class="fa-solid fa-book-open"></i><span>&nbsp;교재</span></button>
-    <button class="tab-btn" onclick="switchTab('survey')"><i class="fa-solid fa-poll-h"></i><span>&nbsp;설문·소감</span></button>
+    <button class="tab-btn" onclick="switchTab('solution-map')"><i class="fa-solid fa-diagram-project"></i><span>&nbsp;장비 스마트솔루션 Map</span></button>
     <button class="tab-btn" onclick="switchTab('action-plan')"><i class="fa-solid fa-lightbulb"></i><span>&nbsp;업무적용계획</span></button>
     <button class="tab-btn" onclick="switchTab('learner-board')"><i class="fa-solid fa-users"></i><span>&nbsp;학습자 대시보드</span></button>
+    <button class="tab-btn" onclick="switchTab('survey')"><i class="fa-solid fa-poll-h"></i><span>&nbsp;설문·소감</span></button>
+    <button class="tab-btn" id="tab-btn-materials" onclick="switchTab('materials')"><i class="fa-solid fa-book-open"></i><span>&nbsp;교재</span></button>
   </div>
 </div>
 
@@ -320,7 +327,7 @@ select:disabled{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
           <li><strong>이론 강의실:</strong> 채움관 분반 강의실</li>
           <li><strong>현장 체험:</strong> SFAC (P4동), Embedded House (P1동)</li>
         </ul>
-        <button class="btn-outline" onclick="openLocationModal()" style="margin-top:10px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px">
+        <button class="btn-outline" onclick="openImageModal(LOCATION_IMAGE_URL, '교육 장소', 'LOCATION_IMAGE_URL')" style="margin-top:10px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px">
           <i class="fa-solid fa-map-location-dot"></i> 교육장소 확인하기
         </button>
       </div>
@@ -443,104 +450,22 @@ select:disabled{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
     </div>
   </div>
 
-  <!-- ╔═ 교재 ═╗ -->
-  <div id="materials" class="tab-content">
-    <div class="section-title">교육 자료 및 플랫폼 가이드 다운로드</div>
-    <div class="section-sub">각 솔루션별 핵심 교재 자료 및 매뉴얼을 다운로드할 수 있습니다.</div>
-    <div class="mat-grid">
-      <div class="mat-card"><div class="mat-icon" style="color:#f97316">📊</div><div class="mat-info"><h4>01_장비 스마트 솔루션 교육 방향성 및 개요</h4><p>파일 형식: PPTX | 크기: 4.8MB</p><a class="mat-dl" id="mat-dl-1" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
-      <div class="mat-card"><div class="mat-icon" style="color:#3b82f6">📄</div><div class="mat-info"><h4>02_S_F 플랫폼 통합 매뉴얼 (PRISM &amp; PRIME)</h4><p>파일 형식: PDF | 크기: 12.4MB</p><a class="mat-dl" id="mat-dl-2" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
-      <div class="mat-card"><div class="mat-icon" style="color:#3b82f6">📄</div><div class="mat-info"><h4>03_로봇_AX 솔루션 제어 가이드 (IRIS &amp; PRAI)</h4><p>파일 형식: PDF | 크기: 8.1MB</p><a class="mat-dl" id="mat-dl-3" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
-      <div class="mat-card"><div class="mat-icon" style="color:#16a34a">💾</div><div class="mat-info"><h4>04_Embedded House 오픈소스 MCU 실습 소스코드</h4><p>파일 형식: ZIP | 크기: 1.5MB</p><a class="mat-dl" id="mat-dl-4" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
-    </div>
-    <div class="dark-box">
-      <h3><i class="fa-solid fa-building-shield"></i> Embedded House 인프라 연계 안내</h3>
-      <p>실습장소인 <strong>Embedded House</strong>는 단순 이론을 넘어 개발 및 상용 아이템 테스트 환경이 구축되어 있습니다. ANSYS SI-Wave를 포함한 보드 설계 최적화 기술, 저가형 임베디드 비전(라즈베리파이 등), 고속 AI 솔루션(Jetson 기반), 3D 프린팅 소형 설계 검증 하드웨어 인프라를 직접 확인하실 수 있습니다.</p>
-    </div>
-  </div>
-
-  <!-- ╔═ 설문·소감 ═╗ -->
-  <div id="survey" class="tab-content">
-    <div class="section-title">교육 만족도 설문조사</div>
+  <!-- ╔═ 장비 스마트솔루션 Map ═╗ -->
+  <div id="solution-map" class="tab-content">
+    <div class="section-title">스마트 솔루션 Map</div>
     <div class="section-sub">
-      교육에 대한 솔직한 의견을 남겨주세요. 여러분의 피드백이 더 나은 교육을 만듭니다.<br>
-      <span class="survey-time-banner"><i class="fa-regular fa-clock"></i> 설문은 교육 종료 시점에 참여 가능합니다.</span>
+      스마트 솔루션 Map은 스마트공장의 기획부터 운영·개선까지의 전체 흐름과 각 솔루션의 역할을 한눈에 확인할 수 있도록 구성되어 있습니다.<br>
+      전체 구조를 먼저 이해하신 후 개별 솔루션을 살펴보시면, 솔루션 간 연계성과 활용 가치를 더욱 쉽게 파악하실 수 있습니다.
     </div>
-
     <div class="card">
-      <form class="form-wrap" id="survey-form" onsubmit="submitSurvey(event)">
-        <div class="form-field">
-          <span class="form-label">참석하신 차수 <span style="color:#ef4444">*</span></span>
-          <div class="radio-group" id="survey-session-group"></div>
+      <div class="solmap-img-wrap">
+        <img id="solution-map-img" class="solmap-img" src="" alt="스마트 솔루션 Map" onclick="openImageModal(SOLUTION_MAP_IMAGE_URL, '스마트 솔루션 Map', 'SOLUTION_MAP_IMAGE_URL')">
+        <div class="modal-error" id="solution-map-error" style="display:none">
+          <i class="fa-solid fa-triangle-exclamation" style="font-size:24px;display:block;margin-bottom:8px;color:#fbbf24"></i>
+          이미지를 불러올 수 없습니다.<br>관리자 설정의 <strong>SOLUTION_MAP_IMAGE_URL</strong> 값을 확인해 주세요.
         </div>
-
-        <div class="divider"></div>
-
-        <div class="likert-block">
-          <div class="likert-question"><span class="likert-no">1</span><span>전체적으로 본 과정에 만족하였다. <span style="color:#ef4444">*</span></span></div>
-          <div class="likert-scale">
-            <span class="likert-end-label">전혀 아니다</span>
-            <div class="likert-options" id="q1-options"></div>
-            <span class="likert-end-label right">매우 그렇다</span>
-          </div>
-        </div>
-
-        <div class="likert-block">
-          <div class="likert-question"><span class="likert-no">2</span><span>학습내용은 업무(혹은 역할) 관련성이 높았다. <span style="color:#ef4444">*</span></span></div>
-          <div class="likert-scale">
-            <span class="likert-end-label">전혀 아니다</span>
-            <div class="likert-options" id="q2-options"></div>
-            <span class="likert-end-label right">매우 그렇다</span>
-          </div>
-        </div>
-
-        <div class="likert-block">
-          <div class="likert-question"><span class="likert-no">3</span><span>학습방법은 학습내용 전달에 적절하였다. <span style="color:#ef4444">*</span></span></div>
-          <div class="likert-scale">
-            <span class="likert-end-label">전혀 아니다</span>
-            <div class="likert-options" id="q3-options"></div>
-            <span class="likert-end-label right">매우 그렇다</span>
-          </div>
-        </div>
-
-        <div class="likert-block">
-          <div class="likert-question"><span class="likert-no">4</span><span>나는 학습한 내용을 실무에 활용할 것이다. <span style="color:#ef4444">*</span></span></div>
-          <div class="likert-scale">
-            <span class="likert-end-label">전혀 아니다</span>
-            <div class="likert-options" id="q4-options"></div>
-            <span class="likert-end-label right">매우 그렇다</span>
-          </div>
-        </div>
-
-        <div class="likert-block">
-          <div class="likert-question"><span class="likert-no">5</span><span>본 과정을 동료에게 참석해 보도록 추천하고 싶다. <span style="color:#ef4444">*</span></span></div>
-          <div class="likert-scale">
-            <span class="likert-end-label">비추천</span>
-            <div class="likert-options" id="nps-options"></div>
-            <span class="likert-end-label right">추천</span>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="form-field">
-          <span class="form-label">교육 참석 소감 / 좋았던 점</span>
-          <textarea id="survey-feedback" rows="3" placeholder="자유롭게 작성해 주세요"></textarea>
-        </div>
-        <div class="form-field">
-          <span class="form-label">교육과정에서 개선할 점</span>
-          <textarea id="survey-improvement" rows="3" placeholder="자유롭게 작성해 주세요"></textarea>
-        </div>
-
-        <div id="survey-time-msg" class="warn-card" style="display:none">
-          <h3><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> 제출 시간이 아닙니다</h3>
-          <p style="font-size:13px;color:#92400e;line-height:1.7"><strong>지금은 설문 제출 시간이 아닙니다.</strong></p>
-        </div>
-
-        <button type="submit" class="btn-primary" id="survey-submit-btn" style="align-self:flex-start">
-          <i class="fa-solid fa-paper-plane"></i> 제출하기
-        </button>
-      </form>
+      </div>
+      <div class="solmap-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 이미지를 클릭하면 크게 볼 수 있습니다</div>
     </div>
   </div>
 
@@ -639,20 +564,121 @@ select:disabled{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
     </div>
   </div>
 
+  <!-- ╔═ 설문·소감 ═╗ -->
+  <div id="survey" class="tab-content">
+    <div class="section-title">교육 만족도 설문조사</div>
+    <div class="section-sub">
+      교육에 대한 솔직한 의견을 남겨주세요. 여러분의 피드백이 더 나은 교육을 만듭니다.<br>
+      <span class="survey-time-banner"><i class="fa-regular fa-clock"></i> 설문은 교육 종료 시점에 참여 가능합니다.</span>
+    </div>
+
+    <div class="card">
+      <form class="form-wrap" id="survey-form" onsubmit="submitSurvey(event)">
+        <div class="form-field">
+          <span class="form-label">참석하신 차수 <span style="color:#ef4444">*</span></span>
+          <div class="radio-group" id="survey-session-group"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">1</span><span>전체적으로 본 과정에 만족하였다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">전혀 아니다</span>
+            <div class="likert-options" id="q1-options"></div>
+            <span class="likert-end-label right">매우 그렇다</span>
+          </div>
+        </div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">2</span><span>학습내용은 업무(혹은 역할) 관련성이 높았다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">전혀 아니다</span>
+            <div class="likert-options" id="q2-options"></div>
+            <span class="likert-end-label right">매우 그렇다</span>
+          </div>
+        </div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">3</span><span>학습방법은 학습내용 전달에 적절하였다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">전혀 아니다</span>
+            <div class="likert-options" id="q3-options"></div>
+            <span class="likert-end-label right">매우 그렇다</span>
+          </div>
+        </div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">4</span><span>나는 학습한 내용을 실무에 활용할 것이다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">전혀 아니다</span>
+            <div class="likert-options" id="q4-options"></div>
+            <span class="likert-end-label right">매우 그렇다</span>
+          </div>
+        </div>
+
+        <div class="likert-block">
+          <div class="likert-question"><span class="likert-no">5</span><span>본 과정을 동료에게 참석해 보도록 추천하고 싶다. <span style="color:#ef4444">*</span></span></div>
+          <div class="likert-scale">
+            <span class="likert-end-label">비추천</span>
+            <div class="likert-options" id="nps-options"></div>
+            <span class="likert-end-label right">추천</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-field">
+          <span class="form-label">교육 참석 소감 / 좋았던 점</span>
+          <textarea id="survey-feedback" rows="3" placeholder="자유롭게 작성해 주세요"></textarea>
+        </div>
+        <div class="form-field">
+          <span class="form-label">교육과정에서 개선할 점</span>
+          <textarea id="survey-improvement" rows="3" placeholder="자유롭게 작성해 주세요"></textarea>
+        </div>
+
+        <div id="survey-time-msg" class="warn-card" style="display:none">
+          <h3><i class="fa-solid fa-triangle-exclamation" style="color:#d97706"></i> 제출 시간이 아닙니다</h3>
+          <p style="font-size:13px;color:#92400e;line-height:1.7"><strong>지금은 설문 제출 시간이 아닙니다.</strong></p>
+        </div>
+
+        <button type="submit" class="btn-primary" id="survey-submit-btn" style="align-self:flex-start">
+          <i class="fa-solid fa-paper-plane"></i> 제출하기
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ╔═ 교재 (관리자 설정으로 숨김/표시) ═╗ -->
+  <div id="materials" class="tab-content">
+    <div class="section-title">교육 자료 및 플랫폼 가이드 다운로드</div>
+    <div class="section-sub">각 솔루션별 핵심 교재 자료 및 매뉴얼을 다운로드할 수 있습니다.</div>
+    <div class="mat-grid">
+      <div class="mat-card"><div class="mat-icon" style="color:#f97316">📊</div><div class="mat-info"><h4>01_장비 스마트 솔루션 교육 방향성 및 개요</h4><p>파일 형식: PPTX | 크기: 4.8MB</p><a class="mat-dl" id="mat-dl-1" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
+      <div class="mat-card"><div class="mat-icon" style="color:#3b82f6">📄</div><div class="mat-info"><h4>02_S_F 플랫폼 통합 매뉴얼 (PRISM &amp; PRIME)</h4><p>파일 형식: PDF | 크기: 12.4MB</p><a class="mat-dl" id="mat-dl-2" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
+      <div class="mat-card"><div class="mat-icon" style="color:#3b82f6">📄</div><div class="mat-info"><h4>03_로봇_AX 솔루션 제어 가이드 (IRIS &amp; PRAI)</h4><p>파일 형식: PDF | 크기: 8.1MB</p><a class="mat-dl" id="mat-dl-3" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
+      <div class="mat-card"><div class="mat-icon" style="color:#16a34a">💾</div><div class="mat-info"><h4>04_Embedded House 오픈소스 MCU 실습 소스코드</h4><p>파일 형식: ZIP | 크기: 1.5MB</p><a class="mat-dl" id="mat-dl-4" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-down-long"></i> 다운로드</a></div></div>
+    </div>
+    <div class="dark-box">
+      <h3><i class="fa-solid fa-building-shield"></i> Embedded House 인프라 연계 안내</h3>
+      <p>실습장소인 <strong>Embedded House</strong>는 단순 이론을 넘어 개발 및 상용 아이템 테스트 환경이 구축되어 있습니다. ANSYS SI-Wave를 포함한 보드 설계 최적화 기술, 저가형 임베디드 비전(라즈베리파이 등), 고속 AI 솔루션(Jetson 기반), 3D 프린팅 소형 설계 검증 하드웨어 인프라를 직접 확인하실 수 있습니다.</p>
+    </div>
+  </div>
+
 </div><!-- end content-wrap -->
 
-<!-- 교육 장소 이미지 팝업 -->
-<div class="modal-overlay" id="location-modal" onclick="if(event.target===this) closeLocationModal()">
-  <div class="modal-box">
+<!-- 이미지 팝업 (교육 장소 / 스마트 솔루션 Map 공용) -->
+<div class="modal-overlay" id="img-modal" onclick="if(event.target===this) closeImageModal()">
+  <div class="modal-box modal-box-wide">
     <div class="modal-header">
-      <h3><i class="fa-solid fa-location-dot" style="color:#2563eb"></i> 교육 장소</h3>
-      <button class="modal-close-btn" onclick="closeLocationModal()" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button>
+      <h3 id="img-modal-title"><i class="fa-solid fa-image" style="color:#2563eb"></i> 이미지</h3>
+      <button class="modal-close-btn" onclick="closeImageModal()" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="modal-body" id="location-modal-body">
-      <img src="" alt="교육 장소 안내도" id="location-modal-img">
-      <div class="modal-error" id="location-modal-error" style="display:none">
+    <div class="modal-body" id="img-modal-body">
+      <img src="" alt="이미지 확대보기" id="img-modal-img">
+      <div class="modal-error" id="img-modal-error" style="display:none">
         <i class="fa-solid fa-triangle-exclamation" style="font-size:24px;display:block;margin-bottom:8px;color:#fbbf24"></i>
-        이미지를 불러올 수 없습니다.<br>관리자 설정의 <strong>LOCATION_IMAGE_URL</strong> 값을 확인해 주세요.
+        이미지를 불러올 수 없습니다.<br>관리자 설정의 이미지 주소 값을 확인해 주세요.
       </div>
     </div>
   </div>
@@ -673,6 +699,13 @@ const AP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9DBdQ63JR-nCIxG
 //     일반 github.com/.../blob/... 주소는 이미지가 아닌 페이지라서 동작하지 않습니다.)
 const LOCATION_IMAGE_URL = 'https://github.com/lgehqtsc/smartsolution_pri/blob/main/IMG_6760.png?raw=true';
 //    예) 'https://raw.githubusercontent.com/myname/my-repo/main/location-map.png'
+
+// 3-1) 장비 스마트솔루션 Map 이미지 — 쉐어포인트(SharePoint)에 저장된 이미지의 "직접 다운로드/미리보기" 주소를 넣어주세요.
+//    쉐어포인트 공유 링크는 보통 그대로 쓰면 로그인 페이지가 뜰 수 있으니,
+//    공유 링크 끝에 있는 물음표(?) 뒤 파라미터를 "?download=1" 로 바꾸거나,
+//    "Embed(포함)" 옵션으로 생성된 src 주소를 사용하는 것을 권장합니다.
+const SOLUTION_MAP_IMAGE_URL = 'https://github.com/lgehqtsc/smartsolution_pri/blob/main/장비스마트솔루션MAP.png?raw=true';
+//    예) 'https://yourcompany.sharepoint.com/:i:/g/personal/.../download.aspx?...'
 
 // 4) 교재 다운로드 링크 — 자료실 4개 파일의 실제 다운로드 주소를 순서대로 넣어주세요
 //    (구글 드라이브 공유 링크, 깃허브 Raw 주소 등 직접 받을 수 있는 주소를 사용하세요)
@@ -746,25 +779,53 @@ function initMaterialLinks(){
   });
 }
 
-// ─── 교육 장소 이미지 팝업 ───
-function openLocationModal(){
-  const img=document.getElementById('location-modal-img');
-  const err=document.getElementById('location-modal-error');
-  img.style.display='block';
-  err.style.display='none';
-  img.src=LOCATION_IMAGE_URL;
-  document.getElementById('location-modal').classList.add('show');
+// ─── 이미지 팝업 (교육 장소 / 스마트 솔루션 Map 공용) ───
+function openImageModal(url, title, missingVarName){
+  const img=document.getElementById('img-modal-img');
+  const err=document.getElementById('img-modal-error');
+  const titleEl=document.getElementById('img-modal-title');
+  titleEl.innerHTML = '<i class="fa-solid fa-image" style="color:#2563eb"></i> ' + escHtml(title||'이미지');
+
+  if(!url){
+    img.style.display='none';
+    err.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="font-size:24px;display:block;margin-bottom:8px;color:#fbbf24"></i>이미지 주소가 아직 설정되지 않았습니다.'
+      + (missingVarName ? '<br>관리자 설정의 <strong>'+escHtml(missingVarName)+'</strong> 값을 확인해 주세요.' : '');
+    err.style.display='block';
+  } else {
+    img.style.display='block';
+    err.style.display='none';
+    img.src=url;
+  }
+  document.getElementById('img-modal').classList.add('show');
   document.body.style.overflow='hidden';
 }
-function closeLocationModal(){
-  document.getElementById('location-modal').classList.remove('show');
+function closeImageModal(){
+  document.getElementById('img-modal').classList.remove('show');
   document.body.style.overflow='';
 }
-document.getElementById('location-modal-img').addEventListener('error', function(){
+document.getElementById('img-modal-img').addEventListener('error', function(){
   this.style.display='none';
-  document.getElementById('location-modal-error').style.display='block';
+  document.getElementById('img-modal-error').innerHTML =
+    '<i class="fa-solid fa-triangle-exclamation" style="font-size:24px;display:block;margin-bottom:8px;color:#fbbf24"></i>이미지를 불러올 수 없습니다.<br>이미지 주소(링크)가 올바른지 확인해 주세요.';
+  document.getElementById('img-modal-error').style.display='block';
 });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLocationModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeImageModal(); });
+
+// ─── 스마트 솔루션 Map 탭 이미지 초기화 ───
+function initSolutionMapImage(){
+  const img=document.getElementById('solution-map-img');
+  const err=document.getElementById('solution-map-error');
+  if(!SOLUTION_MAP_IMAGE_URL){
+    img.style.display='none';
+    err.style.display='block';
+    return;
+  }
+  img.src = SOLUTION_MAP_IMAGE_URL;
+  img.addEventListener('error', ()=>{
+    img.style.display='none';
+    err.style.display='block';
+  });
+}
 
 // ─── 나의 분반 확인하기 ───
 async function checkMyClass(){
@@ -1133,6 +1194,7 @@ renderApTable();
 loadDraft();
 initSurveyForm();
 initMaterialLinks();
+initSolutionMapImage();
 applyMaterialsTabVisibility();
 </script>
 </body>
